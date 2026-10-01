@@ -536,7 +536,7 @@ button.coach-attendance-category{background:#fff;color:var(--ink);display:flex;f
 .header .brand{flex-shrink:0}
 @media(max-width:700px){
  .header .brand{flex-shrink:1;gap:6px}
- .header .brand .miki-wordmark{font-size:clamp(10px,3.1vw,21px);letter-spacing:.015em}
+ .header .brand .miki-wordmark{font-size:clamp(11px,3.55vw,23px);letter-spacing:.015em}
  .header .brand .club-logo{width:32px;height:32px;flex:0 0 32px}
  .header .brand small{font-size:6px;letter-spacing:0}
 }
