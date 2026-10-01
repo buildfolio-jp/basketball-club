@@ -12,8 +12,10 @@ async function initialize(config){
   erase('/app/data');runtime.FS.writeFile('/app/data/club.sqlite3',new Uint8Array(await(await fetch('seed.sqlite3?v='+config.version)).arrayBuffer()));runtime.FS.writeFile('/app/data/demo-version',config.version);
  }
  runtime.FS.mkdirTree('/app/public');runtime.FS.mkdirTree('/app/data/uploads');runtime.FS.symlink('/app/data/uploads','/app/public/uploads');
- await runtime.runPythonAsync("import sys, os\nsys.path.insert(0, '/app')\nos.chdir('/app')\nimport bridge");bridge=runtime.pyimport('bridge');await sync(false);
- return {ready:true};
+ await runtime.runPythonAsync("import sys, os\nsys.path.insert(0, '/app')\nos.chdir('/app')\nimport bridge");bridge=runtime.pyimport('bridge');bridge.set_cookie(config.session||'');
+ const accounts={member:['member01','Cheetahs123!'],coach:['coach01','Coach123!'],admin:['admin01','Admin123!']};
+ if(accounts[config.demoRole]){const [id,password]=accounts[config.demoRole];const result=JSON.parse(bridge.request(JSON.stringify({method:'POST',path:'/api/login',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,password})})));if(result.status!==200)throw Error('デモのログインに失敗しました。');}
+ await sync(false);return {ready:true,session:bridge.get_cookie()};
 }
 let queue=Promise.resolve();
-self.onmessage=({data})=>{queue=queue.then(async()=>{try{const result=data.init?await initialize(data.init):JSON.parse(bridge.request(JSON.stringify(data.request)));if(!data.init)await sync(false);self.postMessage({id:data.id,result});}catch(e){self.postMessage({id:data.id,error:String(e)});}});};
+self.onmessage=({data})=>{queue=queue.then(async()=>{try{const run=async()=>{if(data.init)return initialize(data.init);await sync(true);const result=JSON.parse(bridge.request(JSON.stringify(data.request)));result.session=bridge.get_cookie();await sync(false);return result;};const result=await navigator.locks.request('basketball-club-database',run);self.postMessage({id:data.id,result});}catch(e){self.postMessage({id:data.id,error:String(e)});}});};
