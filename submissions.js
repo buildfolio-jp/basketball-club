@@ -18,9 +18,9 @@ async function reviewFinanceMember(id,button){button.disabled=true;const r=data.
 function displayedStaff(){const published=pub.staff_intros||[];if(published.length)return published;return [
 {name:'コーチA',classes:['男子A'],referee:'あり',comment:'一人ひとりの挑戦を大切に、基礎から丁寧にサポートします。'},
 {name:'コーチB',classes:['男子B'],referee:'なし',comment:'バスケットボールの楽しさを感じながら、できることを一緒に増やしていきましょう。'},
-{name:'コーチC',classes:['女子A'],referee:'あり',comment:'仲間との声かけを大切に、自分で考えてプレーする力を育てます。'},
-{name:'コーチD',classes:['女子B'],referee:'なし',comment:'初めての選手も安心して参加できるよう、楽しく練習できる環境をつくります。'},
-{name:'コーチE',classes:['U15A','U15B'],referee:'あり',comment:'目標に向けた練習と振り返りを通して、選手の成長を支えます。'}
+{name:'コーチC',classes:['女子U９'],referee:'あり',comment:'仲間との声かけを大切に、自分で考えてプレーする力を育てます。'},
+{name:'コーチD',classes:['女子U12'],referee:'なし',comment:'初めての選手も安心して参加できるよう、楽しく練習できる環境をつくります。'},
+{name:'コーチE',classes:['U15アドバンス','U15ベーシック'],referee:'あり',comment:'目標に向けた練習と振り返りを通して、選手の成長を支えます。'}
 ].map(s=>({...s,sample:true}));}
 function publicStaffCards(rows=displayedStaff()){return rows.map(s=>`<article class="public-staff-card"><img src="${s.sample?'/basketball-club/uploads/00000000000000000000000000000003.jpg':'/basketball-club/staff-photo?id='+encodeURIComponent(s.photo)}" alt="${s.sample?'活動写真（仮）':esc(s.name)}" loading="lazy"><div>${s.sample?'<span class="tag">紹介サンプル・写真は仮</span>':''}<h3>${esc(s.name)}</h3><p class="staff-comment">${esc(s.comment)}</p><p><b>担当クラス</b><br>${s.classes.map(c=>`<span class="tag">${esc(c)}</span>`).join(' ')}</p><p><b>審判資格：</b>${esc(s.referee||'未設定')}</p></div></article>`).join('');}
 function publicStaffSection(){const rows=displayedStaff();return `<section class="section wrap" id="staff-introduction"><div class="section-title"><div><div class="eng">OUR STAFF</div><h2>スタッフ紹介</h2></div><div class="staff-carousel-controls"><button type="button" class="outline small" aria-label="前のコーチ" onclick="scrollStaffCarousel(-1)">←</button><button type="button" class="outline small" aria-label="次のコーチ" onclick="scrollStaffCarousel(1)">→</button></div></div>${rows[0]?.sample?'<p class="hint">掲載イメージです。名前・紹介文・担当クラス・資格はサンプルで、写真は仮の活動写真です。</p>':''}<div class="staff-carousel" id="staff-carousel" onscroll="syncStaffScroll(this)" tabindex="0" role="region" aria-label="コーチ紹介。左右にスクロールできます">${publicStaffCards(rows.slice(0,4))}</div><div class="staff-mobile-scroll"><input type="range" min="0" max="100" step="0.1" value="0" aria-label="スタッフ紹介の横スクロール" oninput="setStaffScroll(this.value)"></div>${rows.length>=5?'<p class="staff-see-all"><a class="btn outline" href="#all-staff">他のスタッフを見る</a></p>':''}</section>`;}

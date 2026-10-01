@@ -470,3 +470,64 @@ dialog.attendance-day-dialog{width:min(1120px,98vw);max-width:98vw;padding:20px}
 .modal-bottom-actions{display:flex;justify-content:center;margin-top:24px;padding-top:16px;border-top:1px solid var(--line)}.modal-bottom-actions>button{min-width:140px;min-height:44px;white-space:nowrap}
 
 .conditioning-history-table .quick-actual{width:264px;min-width:264px;box-sizing:border-box}.conditioning-history-table .quick-actual-buttons{grid-template-columns:repeat(4,54px);gap:8px}.conditioning-history-table .quick-actual-buttons button{width:54px;min-width:54px;white-space:nowrap;padding:12px 4px;box-sizing:border-box}.conditioning-history-table .quick-actual-status{min-height:18px;white-space:normal;overflow-wrap:anywhere;width:240px}.basket-note-status{width:150px;min-width:150px}.basket-note-status select{width:150px}.basket-note-status p{white-space:normal;min-height:18px}
+/* Refund and withdrawal workflow */
+.refund-settings{margin-top:20px;border:1px solid #cfdaf2;border-radius:12px;padding:18px;background:#f8faff}
+.refund-settings>summary{cursor:pointer;font-size:1.05rem}
+.refund-settings .field{margin-top:16px}
+.refund-breakdown{margin:16px 0}.refund-breakdown>div{display:flex;justify-content:space-between;gap:20px;padding:10px 0;border-bottom:1px solid #dce4f3}
+.refund-breakdown dt{font-weight:500}.refund-breakdown dd{margin:0;text-align:right;font-weight:700;overflow-wrap:anywhere}.refund-breakdown>div:last-child{background:#fff3aa;padding:14px;border-radius:8px;font-size:1.1rem}
+.withdrawal-actions{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}.withdrawal-actions button{white-space:nowrap}
+.withdrawal-card{margin-top:18px}.withdrawal-card h3{margin:0}.withdrawal-card .hint{line-height:1.7}
+#withdrawal-signature{display:block;width:100%;height:auto;touch-action:none;background:white;border:2px solid #99b4ea;border-radius:8px;margin:12px 0}
+.withdrawal-signature-preview{max-width:100%;border:1px solid #cad4e8;background:white}
+@media(max-width:600px){.refund-settings{padding:12px}.refund-breakdown>div{gap:10px;font-size:.9rem}.withdrawal-actions{display:grid;grid-template-columns:1fr}.withdrawal-actions button{width:100%;min-height:46px}.withdrawal-card{padding:14px}.refund-settings>button{width:100%;white-space:nowrap;font-size:.9rem}}
+
+.school-subject{margin:16px 0;padding:16px;border:1px solid #d4dfef;min-width:0;border-radius:8px}.school-subject legend{font-weight:700}.school-originals canvas{max-width:100%;height:auto;display:block;margin:12px 0}.school-ocr-text{white-space:pre-wrap;overflow-wrap:anywhere;max-height:240px;overflow:auto}.school-template-row{display:flex;align-items:end;gap:12px;margin:12px 0}.school-template-row .field{flex:1;min-width:0}@media(max-width:600px){.school-subject .form-grid{grid-template-columns:1fr}.school-template-row{flex-wrap:wrap}.school-template-row .field{flex-basis:100%}}
+
+.header-social .facebook-icon{background:#1877f2;color:#fff}
+.staff-attendance-person{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0;border-top:1px solid #d4dfef}.staff-attendance-person>div{min-width:0;overflow-wrap:anywhere}.staff-attendance-person button{flex:none;white-space:nowrap}@media(max-width:600px){.staff-attendance-person{align-items:flex-start;flex-direction:column}.staff-attendance-person button{width:100%}}
+.attendance-calendar .calendar-red> b,.attendance-calendar .calendar-red>.calendar-day-select,.attendance-calendar .calendar-weekday.calendar-red{color:#c43c43}.attendance-calendar .calendar-blue>b,.attendance-calendar .calendar-blue>.calendar-day-select,.attendance-calendar .calendar-weekday.calendar-blue{color:#245cbd}.attendance-calendar .calendar-activity .calendar-event-title,.attendance-calendar .calendar-activity .calendar-event-time{display:block;white-space:normal;overflow-wrap:anywhere}.attendance-calendar .calendar-event-title{font-weight:700}
+.event-equipment-row{display:flex;gap:12px;align-items:center;margin:10px 0}.event-equipment-row>input{flex:1;min-width:0}.event-equipment-row label,.event-equipment-row button{flex:none;white-space:nowrap}.event-equipment-display{padding:12px 16px;background:#edf4ff;border-radius:8px;margin:16px 0}.event-equipment-display h3{margin:0}.event-equipment-display ul{display:flex;flex-wrap:wrap;gap:8px 24px;margin-bottom:0}@media(max-width:600px){.event-equipment-row{flex-wrap:wrap}.event-equipment-row>input{width:100%;flex-basis:65%}}
+.club-date-picker{width:360px;max-width:calc(100% - 24px);max-height:calc(100dvh - 24px);padding:16px;border:0;border-radius:12px;overflow:auto}.date-picker-month{display:flex;align-items:end;gap:8px}.date-picker-month label{min-width:0;flex:1;font-size:12px}.date-picker-month input,.date-picker-month select{width:100%;min-width:0;padding:6px}.date-picker-month button{padding:8px 12px}.date-picker-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;margin:16px 0;text-align:center}.date-picker-grid button{padding:8px 0;min-width:0;min-height:40px;background:#eef3fa;color:var(--ink)}.date-picker-grid .calendar-red{color:#c43c43}.date-picker-grid .calendar-blue{color:#245cbd}.date-picker-grid .selected{background:var(--lime)}.date-picker-shortcuts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.date-picker-shortcuts button{padding:10px 4px;white-space:nowrap}.date-picker-close{width:100%;margin-top:12px}
+/* Contain wide content inside its own scrolling region on mobile. */
+@media(max-width:700px){
+html,body{width:100%;max-width:100%;overscroll-behavior-x:none}body{overflow-x:clip}#app,.app-shell,.workspace,.sidebar,main,.card,fieldset,form,details{min-width:0;max-width:100%}.app-shell{grid-template-columns:minmax(0,1fr)}.form-grid,.two-col,.service-grid{grid-template-columns:minmax(0,1fr)}.page-heading>*,.toolbar>*,.form-grid>*,.workspace-top>*{min-width:0;max-width:100%}.field,input,select,textarea{min-width:0;max-width:100%}input[type=file]{width:100%}.table-wrap,.month-scroll{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}.card>table{display:block;max-width:100%;overflow-x:auto}img,video,iframe{max-width:100%}dialog{max-width:calc(100% - 16px);overflow-x:hidden}dialog form,dialog fieldset{min-width:0}h1,h2,h3,p,.hint,dd{overflow-wrap:anywhere}.dialog-actions,.toolbar{flex-wrap:wrap}.dialog-actions>button,.dialog-actions>.btn{max-width:100%;min-width:0}.workspace .btn,.workspace button{max-width:100%}.attendance-calendar .calendar-event-title,.attendance-calendar .calendar-event-time{font-size:10px;line-height:1.4}.event-equipment-row{gap:8px}
+}
+.schedule-team-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 16px}.schedule-team-choices label{min-width:0;overflow-wrap:anywhere}@media(max-width:600px){.schedule-team-choices{grid-template-columns:minmax(0,1fr)}}
+.receipt-preview{width:100%;height:65vh;border:1px solid var(--line);background:#fff}.receipt-source{padding:16px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+
+.member-schedule-actions{display:none}
+@media(max-width:700px){
+.member-schedule-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;position:fixed;z-index:45;left:0;right:0;bottom:0;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:#f5f7fbf5;border-top:1px solid var(--line);box-shadow:0 -3px 16px #12264a16}
+.member-schedule-actions button{width:100%;min-width:0;min-height:48px;padding:12px 4px;font-size:clamp(11px,3.4vw,14px);white-space:nowrap;border-radius:8px}
+.member-schedule-actions .schedule-condition-shortcut{background:#155bd7;color:white}
+body:has(.member-schedule-actions){padding-bottom:calc(88px + env(safe-area-inset-bottom))}
+.desktop-attendance-submit{display:none}
+}
+
+button.coach-attendance-category{background:#fff;color:var(--ink);display:flex;flex-direction:column;align-items:flex-start;text-align:left;white-space:normal;width:100%;min-width:0}button.coach-attendance-category:hover{border-color:#155bd7}button.coach-attendance-category .text-link{font-size:12px}
+
+@media(max-width:700px){
+ .dashboard-shortcuts,.member-shortcuts{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+ .dashboard-shortcuts>a,.member-shortcuts>a{padding:12px 6px;min-width:0;text-align:center}
+ .dashboard-shortcuts h2{display:flex;flex-direction:column;gap:8px;font-size:12px;line-height:1.5;margin:0;overflow-wrap:anywhere}
+ .dashboard-shortcuts .text-link{display:block;font-size:11px;margin-top:8px}
+ .member-shortcuts>a{font-size:12px;line-height:1.5}
+ .member-shortcuts .shortcut-icon-row{justify-content:center;flex-wrap:wrap}
+}
+
+.camp-help{min-width:0;margin:16px 0;padding:16px;border:1px solid #dbe3ee;border-radius:10px}.camp-help legend{font-weight:700}.camp-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.camp-options label{display:flex;align-items:center;justify-content:center;gap:5px;min-height:48px;border:1px solid #c8d8ee;border-radius:8px;background:white;font-size:14px}.camp-options label:has(input:checked){background:#e8f0ff;border-color:#155bd7}.camp-options input{width:16px;min-height:16px;flex:none}.camp-times{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}.camp-times[hidden],[data-camp-guide][hidden],[data-lunch-builder][hidden]{display:none}.camp-survey>button{width:100%}@media(max-width:700px){.camp-help{padding:10px}.camp-options{gap:5px}.camp-options label{font-size:12px}.survey-builder select,.survey-builder input{min-height:48px}}
+
+.shop-product-order-group{border-top:1px dashed #ccd7e8;padding:14px 0}.shop-product-order-group>summary{display:flex;justify-content:space-between;gap:12px;cursor:pointer;min-height:44px;align-items:center}.shop-product-order-person{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px;padding:12px;border-bottom:1px solid #e5ebf5}.shop-product-order-person .hint,.shop-product-order-person p{grid-column:1/-1;margin:0}.shop-product-order-group summary strong{white-space:nowrap;font-size:14px}
+
+.team-wordmark.miki-wordmark>span{display:inline}.miki-wordmark{white-space:normal}
+
+/* Use an explicit date label so native locale suffixes never show in forms. */
+.club-date-display{position:relative;display:block;width:100%;min-width:0;background:#fff;border:1px solid #c8d5e8;border-radius:4px}
+.club-date-display input[type=date]{position:relative;z-index:1;opacity:0;cursor:pointer;margin:0;width:100%;min-height:48px}
+.club-date-display:focus-within{outline:2px solid #155bd7;outline-offset:1px}
+.club-date-text{position:absolute;left:12px;right:36px;top:50%;transform:translateY(-50%);pointer-events:none;color:#111722;font-size:16px;white-space:nowrap}
+.club-date-icon{position:absolute;right:12px;top:50%;transform:translateY(-50%);pointer-events:none;color:#52657e}
+.club-date-display:has(input:disabled){background:#edf1f7;opacity:.65}
+
+.roster-entry{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) auto;gap:10px;align-items:end;border-bottom:1px solid #dbe3ee;padding:12px 0}.roster-entry .field{margin:0}.roster-editor>.dialog-actions{margin-top:20px}@media(max-width:700px){.roster-entry{grid-template-columns:1fr 1fr}.roster-entry .field:first-child{grid-column:1/-1}.roster-entry>button{grid-column:1/-1}}
