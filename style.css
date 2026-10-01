@@ -531,3 +531,13 @@ button.coach-attendance-category{background:#fff;color:var(--ink);display:flex;f
 .club-date-display:has(input:disabled){background:#edf1f7;opacity:.65}
 
 .roster-entry{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) auto;gap:10px;align-items:end;border-bottom:1px solid #dbe3ee;padding:12px 0}.roster-entry .field{margin:0}.roster-editor>.dialog-actions{margin-top:20px}@media(max-width:700px){.roster-entry{grid-template-columns:1fr 1fr}.roster-entry .field:first-child{grid-column:1/-1}.roster-entry>button{grid-column:1/-1}}
+/* Keep the complete team name on one line, including narrow mobile headers. */
+.brand .miki-wordmark{display:block;white-space:nowrap}
+.header .brand{flex-shrink:0}
+@media(max-width:700px){
+ .header .brand{flex-shrink:1;gap:6px}
+ .header .brand .miki-wordmark{font-size:clamp(10px,3.1vw,21px);letter-spacing:.015em}
+ .header .brand .club-logo{width:32px;height:32px;flex:0 0 32px}
+ .header .brand small{font-size:6px;letter-spacing:0}
+}
+.sidebar .brand .miki-wordmark{font-size:16px}
