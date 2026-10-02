@@ -2,7 +2,7 @@
  const originalFetch=window.fetch.bind(window),demoRole=new URLSearchParams(location.search).get('view')||'';
  const fastPublic=!demoRole&&['','home','login','philosophy','trial','trial-list','location','faq','staff-introduction','other-activities','all-staff'].includes(location.hash.slice(1));let runtimeReady=false;
  const publicSnapshot=fastPublic?originalFetch('public-snapshot.json?v='+window.DEMO_VERSION).then(r=>{if(!r.ok)throw Error('公開ページを読み込めません。');return r.json();}):null;
- const roleLabel={member:'会員',coach:'コーチ',admin:'管理者'}[demoRole];
+ const roleLabel={member:'会員',coach:'コーチ',admin:'管理者',officer:'役員'}[demoRole];
  if(roleLabel){const title=()=>{if(!document.title.startsWith('【'+roleLabel+'】'))document.title='【'+roleLabel+'】'+document.title.replace(/^【[^】]+】/,'');};new MutationObserver(title).observe(document.querySelector('title'),{childList:true,subtree:true});title();}
  const status=document.getElementById('demo-loading-status');let counter=0;const waiting=new Map();const worker=new Worker('demo-worker.js?v='+window.DEMO_VERSION);
  const call=payload=>new Promise((resolve,reject)=>{const id=++counter;waiting.set(id,{resolve,reject});worker.postMessage({id,...payload});});

@@ -13,7 +13,7 @@ async function initialize(config){
  }
  runtime.FS.mkdirTree('/app/public');runtime.FS.mkdirTree('/app/data/uploads');runtime.FS.symlink('/app/data/uploads','/app/public/uploads');
  await runtime.runPythonAsync("import sys, os\nsys.path.insert(0, '/app')\nos.chdir('/app')\nimport bridge");bridge=runtime.pyimport('bridge');bridge.set_cookie(config.session||'');
- const accounts={member:['member01','Cheetahs123!'],coach:['coach01','Coach123!'],admin:['admin01','Admin123!']};
+ const accounts={member:['member01','Cheetahs123!'],coach:['coach01','Coach123!'],admin:['admin01','Admin123!'],officer:['officer01','Officer123!']};
  if(accounts[config.demoRole]){const [id,password]=accounts[config.demoRole];const result=JSON.parse(bridge.request(JSON.stringify({method:'POST',path:'/api/login',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,password})})));if(result.status!==200)throw Error('デモのログインに失敗しました。');}
  await sync(false);return {ready:true,session:bridge.get_cookie()};
 }
