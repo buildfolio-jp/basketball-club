@@ -22,13 +22,11 @@ async function deleteStaffActivity(id){const r=data.staff_activity.logs.find(r=>
 let coachHomeReportDate='';
 function japanToday(){return new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());}
 function coachHomeCounts(day){
- const members=(data.users||[]).filter(u=>u.role==='member'&&u.active),events=data.events||[],reports=data.reports||[];
- const matches=(r,targetDay,category)=>{const e=events.find(e=>e.id===r.event_id),m=members.find(m=>m.id===r.user_id);if(!e||!m||e.date!==targetDay||e.kind==='体験会')return false;const groups=categoryNames(e),own=(m.categories||'').split(/[、,]/).map(x=>x.trim());return category?groups.includes(category)&&own.includes(category):groups.some(c=>own.includes(c));};
- return {reported:new Set(reports.filter(r=>hasCondition(r)&&matches(r,day)).map(r=>r.user_id)).size,attendance:(data.coach_categories||['男子A','男子B','女子U９','女子U12','U15アドバンス','U15ベーシック']).map(c=>[c,coachTodayParticipants(c).length,'人'])};
+ return {reported:new Set(coachHomeConditionReports(day).map(r=>r.user_id)).size,attendance:(data.coach_categories||['男子A','男子B','女子U９','女子U12','U15アドバンス','U15ベーシック']).map(c=>[c,coachTodayParticipants(c).length,'人'])};
 }
 function coachHomeSummary(){
  if(!coachHomeReportDate)coachHomeReportDate=japanToday();const totals=coachHomeCounts(coachHomeReportDate);
- return `<section class="card"><h2>本日の出席予定人数（遅刻・早退を含む）</h2><p>${japanToday()}</p><div class="stats">${totals.attendance.map(([category,count])=>`<button type="button" class="stat coach-attendance-category" onclick="openCoachTodayParticipants('${category}')" aria-label="${esc(category)}の本日の出席予定者 ${count}人を表示"><span class="label">${esc(coachCategoryLabel(category))}</span><span class="stat-value"><strong>${count}</strong><small>人</small></span><span class="text-link">名前を見る</span></button>`).join('')}</div><p class="hint">本日の各区分の活動に「出席」「遅刻・早退」と回答した人数です。同じ区分で複数の日程に回答しても1人として数えます。</p></section><section class="card"><h2>体調報告</h2><label class="field">指定日<input type="date" value="${coachHomeReportDate}" onchange="if(this.value){coachHomeReportDate=this.value;dashboard()}"></label><p class="coach-report-total"><strong>${totals.reported}</strong> 人が報告済み</p><p class="hint">指定日の活動への報告人数です。同じ選手の複数報告は1人として数えます。</p></section>`;
+ return `<section class="card"><h2>本日の出席予定人数（遅刻・早退を含む）</h2><p>${japanToday()}</p><div class="stats">${totals.attendance.map(([category,count])=>`<button type="button" class="stat coach-attendance-category" onclick="openCoachTodayParticipants('${category}')" aria-label="${esc(category)}の本日の出席予定者 ${count}人を表示"><span class="label">${esc(coachCategoryLabel(category))}</span><span class="stat-value"><strong>${count}</strong><small>人</small></span><span class="text-link">名前を見る</span></button>`).join('')}</div><p class="hint">本日の各区分の活動に「出席」「遅刻・早退」と回答した人数です。同じ区分で複数の日程に回答しても1人として数えます。</p></section><section class="card"><h2>体調報告</h2><label class="field">指定日<input type="date" value="${coachHomeReportDate}" onchange="if(this.value){coachHomeReportDate=this.value;dashboard()}"></label><button type="button" class="outline coach-report-total" onclick="openCoachHomeConditions()" aria-label="体調報告 ${totals.reported}人の回答結果を見る"><strong>${totals.reported}</strong> 人が報告済み　<span class="text-link">回答結果を見る</span></button><p class="hint">指定日の活動への報告人数です。同じ選手の複数報告は1人として数えます。</p></section>`;
 }
 
 let approvalMonth='',approvalPerson='all';
@@ -51,3 +49,18 @@ async function submitStaffApproval(userId,week,approved){const before=staffAppro
 function coachCategoryLabel(category){return ({'男子A':'男子Aチーム','男子B':'男子Bチーム','U15アドバンス':'U15アドバンス','U15ベーシック':'U15ベーシック'})[category]||category;}
 function coachTodayParticipants(category){const people=new Map(),today=japanToday();for(const r of data.reports||[]){if(!['出席','遅刻・早退','遅刻','早退'].includes(r.attendance))continue;const e=(data.events||[]).find(e=>e.id===r.event_id),m=(data.users||[]).find(m=>m.id===r.user_id&&m.role==='member'&&m.active);if(!e||!m||e.date!==today||e.kind==='体験会'||!categoryNames(e).includes(category)||!(m.categories||'').split(/[、,]/).map(x=>x.trim()).includes(category))continue;if(!people.has(m.id))people.set(m.id,{id:m.id,name:m.name,events:[]});people.get(m.id).events.push({title:e.title,time:e.time,attendance:r.attendance,actual:r.actual||'未確認'});}return [...people.values()].sort((a,b)=>a.name.localeCompare(b.name,'ja'));}
 function openCoachTodayParticipants(category){if(user.role!=='coach'&&!user.delegated_coach&&user.role!=='admin')return;const rows=coachTodayParticipants(category);modal(coachCategoryLabel(category)+'：本日の出席予定者',`<p>${japanToday()} ／ ${rows.length}人</p><p class="hint">ホームの人数と同じ、出席予定の回答をもとにした一覧です。</p>${rows.map(m=>`<article class="card"><h3>${esc(m.name)}</h3>${m.events.map(e=>`<p>${esc(e.time)} ${esc(e.title)}<br>出欠予定：${esc(e.attendance)} ／ 実際の出欠：${esc(e.actual)}</p>`).join('')}</article>`).join('')||'<p class="empty">本日の出席予定者はいません。</p>'}`);}
+
+function coachHomeConditionReports(day){
+ return (data.reports||[]).filter(r=>{
+  if(!hasCondition(r))return false;
+  const e=(data.events||[]).find(e=>e.id===r.event_id),m=(data.users||[]).find(m=>m.id===r.user_id&&m.role==='member'&&m.active);
+  if(!e||!m||e.date!==day||e.kind==='体験会')return false;
+  const own=(m.categories||'').split(/[、,]/).map(x=>x.trim());
+  return categoryNames(e).some(c=>own.includes(c)&&(!data.coach_categories||data.coach_categories.includes(c)));
+ });
+}
+function openCoachHomeConditions(){
+ if(user.role!=='coach'&&!user.delegated_coach&&user.role!=='admin')return;
+ const reports=coachHomeConditionReports(coachHomeReportDate),people=[...new Set(reports.map(r=>r.user_id))].map(id=>(data.users||[]).find(m=>m.id===id)).sort((a,b)=>a.name.localeCompare(b.name,'ja'));
+ modal(coachHomeReportDate+'の体調報告',`<p>回答済み：${people.length}人</p><div class="stack">${people.map(m=>`<article class="card"><h3>${esc(m.name)}</h3>${reports.filter(r=>r.user_id===m.id).map(r=>{const e=data.events.find(e=>e.id===r.event_id);return `<section><p><b>${esc(e.title)}</b> ${esc(e.time||'')}</p><p>体の調子：${conditionValue(r,'body_condition')}<br>心の調子：${conditionValue(r,'mind_condition')}<br>朝ご飯：${conditionValue(r,'breakfast')}</p><p class="service-text">調子の悪いところ：${esc(r.unwell_area||'—')}<br>連絡事項：${esc(r.note||'—')}</p></section>`;}).join('')}</article>`).join('')||'<p class="empty">この日の体調報告はありません。</p>'}</div>`);
+}

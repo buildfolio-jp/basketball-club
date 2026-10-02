@@ -63,12 +63,22 @@ function dashboard(){if(user?.role==='accountant'){accountingDashboard();return;
  if(admin){links.splice(0,links.length,['dashboard','⌂','ホーム'],...adminNavigationLinks());}else if(!staff){links.splice(0,links.length,...visibleMemberLinks());}else links.push(['portal-admin','✉','会員向けサービス管理']);
  if(data.staff_attendance?.available&&!links.some(l=>l[0]==='staff-attendance'))links.push(['staff-attendance','✓','スタッフ出欠']);
  if(user.delegated_coach&&!links.some(l=>l[0]==='excel'))links.push(['excel','⇩','コーチ・スタッフ勤怠管理']);
- if(user.role==='coach'||user.delegated_coach)coachHomeNavigation=links.filter(l=>l[0]!=='dashboard');
+ const coachGrouped=user.role==='coach'||user.delegated_coach,coachRoutes=coachGrouped?links.slice():[];
+ if(coachGrouped){
+  coachSettingsNavigation=coachRoutes.filter(([id])=>adminSettingsLinks.some(([key])=>key===id)||id==='portal-admin');
+  coachReviewNavigation=coachRoutes.filter(([id])=>adminReviewLinks.some(([key])=>key===id)||['trials','staff-attendance','excel'].includes(id));
+  const primary=coachRoutes.filter(([id])=>['dashboard','schedule','attendance-list','results','skill-videos','survey-admin','shop-admin','admin-guide'].includes(id)).map(l=>l[0]==='excel'?['excel',l[1],'スタッフ活動']:l);
+  if(coachRoutes.some(([id])=>id==='excel'))primary.push(['excel','⇩','スタッフ活動']);
+  primary.push(['coach-settings','⚙','各種設定'],['coach-reviews','✓','各種確認']);
+  const covered=new Set([...primary,...coachSettingsNavigation,...coachReviewNavigation].map(l=>l[0]));
+  coachReviewNavigation.push(...coachRoutes.filter(l=>!covered.has(l[0])));
+  links.splice(0,links.length,...primary);coachHomeNavigation=links.filter(l=>l[0]!=='dashboard');
+ }
  if(staff&&page==='condition')page='attendance-list';
  if(staff&&page==='board')page='portal-admin';
- if(admin&&page!=='dashboard'&&!(page==='staff-attendance'&&data.staff_attendance?.available)&&!(user.delegated_coach&&page==='excel')&&!adminCan(adminSection(page)))page='dashboard';
+ if(admin&&!['coach-settings','coach-reviews'].includes(page)&&page!=='dashboard'&&!(page==='staff-attendance'&&data.staff_attendance?.available)&&!(user.delegated_coach&&page==='excel')&&!adminCan(adminSection(page)))page='dashboard';
  const groupedAdmin=adminFull()&&!user.delegated_coach;
- const navigationRoutes=groupedAdmin?[...links,...adminManagementLinks,...adminSettingsLinks,...adminReviewLinks,['admin-settings','⚙','各種設定'],['admin-reviews','✓','各種確認'],['staff-approval-settings','✓','スタッフ活動承認']]:links;
+ const navigationRoutes=coachGrouped?[...links,...coachRoutes]:groupedAdmin?[...links,...adminManagementLinks,...adminSettingsLinks,...adminReviewLinks,['admin-settings','⚙','各種設定'],['admin-reviews','✓','各種確認'],['staff-approval-settings','✓','スタッフ活動承認']]:links;
  if(admin&&!['billing-individual','scorecard','score-records','personal-history','team-history','excel'].includes(page)&&!navigationRoutes.some(l=>l[0]===page))page='dashboard';
  if(!navigationRoutes.some(l=>l[0]===page)&&!(page==='checkout'&&!staff)&&!['scorecard','score-records','personal-history','team-history',...(admin?['billing-individual','excel']:[])].includes(page))page='dashboard';
  renderEditToken=data.edit_token||'';
@@ -81,6 +91,8 @@ function portalContent(staff,admin){
  const members=(data.users||[]).filter(u=>u.role==='member'&&u.active),events=data.events||[],reports=data.reports||[];
  const next=events.find(e=>e.date>=new Date().toLocaleDateString('sv-SE')&&e.kind!=='体験会')||events[0];
  if(!activeEvent||!events.some(e=>e.id===activeEvent))activeEvent=next?.id||'';
+ if(page==='coach-settings'&&(user.role==='coach'||user.delegated_coach))return adminMenuGroup('各種設定',coachSettingsNavigation);
+ if(page==='coach-reviews'&&(user.role==='coach'||user.delegated_coach))return adminMenuGroup('各種確認',coachReviewNavigation);
  if(page==='injury-settings'&&adminFull())return reportTemplatePage('injuries');
  if(page==='condition-settings'&&adminFull())return reportTemplatePage('condition');
  if(page==='admin-settings'&&adminFull())return adminMenuGroup('各種設定',adminSettingsLinks);
@@ -259,5 +271,5 @@ async function deleteSkillVideo(id,revision){if(!await confirmAction('動画を�
 
 const portalBeforeReceipts=portalContent;portalContent=function(staff,admin){const body=portalBeforeReceipts(staff,admin),kind=({'payments':'fees','checkout':'fees','billing-settings':'fees','shop':'shop','shop-admin':'shop','surveys':'lunch','survey-admin':'lunch','finance-report':'accounting','finance-admin':'accounting','messages':'refund'})[page];return body+(kind?receiptPanel(kind):'')+(page==='billing-settings'?receiptPanel('refund'):'');};
 
-let coachHomeNavigation=[];
+let coachHomeNavigation=[],coachSettingsNavigation=[],coachReviewNavigation=[];
 function coachCardHome(){return heading('コーチホーム','確認する項目を選んでください。')+homeAnnouncements()+coachHomeSummary()+`<div class="admin-home-links dashboard-shortcuts">${coachHomeNavigation.filter((x,i,all)=>all.findIndex(y=>y[0]===x[0])===i).map(([id,icon,label])=>`<a class="card" href="#${id}"><h2><span class="admin-shortcut-icon" aria-hidden="true">${icon}</span><span>${esc(label)}</span></h2></a>`).join('')}</div>`;}
