@@ -211,7 +211,7 @@ input[name="unwell_area"]::placeholder{color:#9ca3af;opacity:1}
 
 .edit-conflict-dialog{width:min(760px,calc(100vw - 30px))}.edit-conflict-dialog pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#edf2fb;padding:12px;font-size:13px;max-height:220px;overflow:auto}.edit-conflict-dialog h4{margin-bottom:8px}.actual-attendance-label{padding:12px;background:#eef4ff;border-radius:6px}
 
-.coach-selected-day{background:#edf4ff;box-shadow:inset 0 0 0 2px #155bd7}.calendar-day-select{background:transparent;color:var(--ink);padding:4px 8px;min-height:32px;font-weight:700}.calendar-day-select[aria-pressed="true"]{background:#155bd7;color:white}
+.coach-selected-day{background:#fff8d9;box-shadow:inset 0 0 0 2px #155bd7}.calendar-day-select{background:transparent;color:var(--ink);padding:4px 8px;min-height:32px;font-weight:700}.calendar-day-select[aria-pressed="true"]{background:#155bd7;color:white}
 
 .stats-import-entry{margin-top:32px}.stats-import-entry button{white-space:normal;max-width:100%}
 .staff-work-calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;text-align:center}.staff-work-calendar button{padding:12px 3px;min-width:0;background:#f0f5ff;color:#15253c;border:1px solid #d5e0f0}.staff-work-calendar button.selected{background:#175bda;color:white}.staff-work-calendar small{display:block;font-size:12px}.staff-work-entry{border-top:1px solid #d5e0f0;padding:18px 0;margin-top:18px}@media(max-width:600px){.staff-work-calendar{gap:3px}.staff-work-calendar button{padding:9px 1px;font-size:13px}.staff-work-calendar small{font-size:10px}}
@@ -552,4 +552,6 @@ button.coach-attendance-category{background:#fff;color:var(--ink);display:flex;f
 
 .coach-attendance-counts{display:flex;flex-direction:column;align-items:flex-start;gap:4px}.coach-attendance-counts strong{display:inline;font-size:26px!important}.coach-attendance-group{margin:18px 0}.coach-attendance-group .card{padding:12px;margin-bottom:8px}.coach-attendance-group p{margin:4px 0}
 
-.attendance-calendar .calendar-day-select[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 2px #155bd7}.attendance-calendar .calendar-red>.calendar-day-select[aria-pressed="true"]{color:#c43c43}.attendance-calendar .calendar-blue>.calendar-day-select[aria-pressed="true"]{color:#245cbd}
+.attendance-calendar .calendar-day-select[aria-pressed="true"]{background:transparent;color:var(--ink);box-shadow:none}.attendance-calendar .calendar-red>.calendar-day-select[aria-pressed="true"]{color:#c43c43}.attendance-calendar .calendar-blue>.calendar-day-select[aria-pressed="true"]{color:#245cbd}
+
+.attendance-calendar .coach-selected-day .calendar-activity{background:#fff8d9}.attendance-calendar .coach-selected-day .calendar-activity:hover{background:#fff0ad}.event-equipment-row select{flex:1;min-width:0;padding:8px}
