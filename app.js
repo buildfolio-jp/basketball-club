@@ -64,6 +64,7 @@ function dashboard(){if(user?.role==='accountant'){accountingDashboard();return;
  if(data.staff_attendance?.available&&!links.some(l=>l[0]==='staff-attendance'))links.push(['staff-attendance','✓','スタッフ出欠']);
  if(user.delegated_coach&&!links.some(l=>l[0]==='excel'))links.push(['excel','⇩','コーチ・スタッフ勤怠管理']);
  if(user.role==='coach'||user.delegated_coach)coachHomeNavigation=links.filter(l=>l[0]!=='dashboard');
+ if(!staff&&page==='condition'){page='schedule';history.replaceState(null,'',location.pathname+location.search+'#schedule');setTimeout(()=>goToScheduleCondition(activeEvent),0);}
  if(staff&&page==='condition')page='attendance-list';
  if(staff&&page==='board')page='portal-admin';
  if(admin&&page!=='dashboard'&&!(page==='staff-attendance'&&data.staff_attendance?.available)&&!(user.delegated_coach&&page==='excel')&&!adminCan(adminSection(page)))page='dashboard';
