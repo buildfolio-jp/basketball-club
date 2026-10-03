@@ -549,3 +549,5 @@ button.coach-attendance-category{background:#fff;color:var(--ink);display:flex;f
 .member-progress .stat-value{flex:0 0 auto;margin:0 0 6px}
 .member-progress .stat>.hint{margin:0}
 .coach-report-total{flex-wrap:wrap;white-space:normal;max-width:100%}
+
+.coach-attendance-counts{display:flex;flex-direction:column;align-items:flex-start;gap:4px}.coach-attendance-counts strong{display:inline;font-size:26px!important}.coach-attendance-group{margin:18px 0}.coach-attendance-group .card{padding:12px;margin-bottom:8px}.coach-attendance-group p{margin:4px 0}
